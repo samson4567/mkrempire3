@@ -1,0 +1,39 @@
+class Keys {
+  static String hasLoginBefore = "hasLoginBefore";
+  static String onBoarded = "onBoarded";
+  static String isVerified = "isVerified";
+  static String token = "token";
+  static String isDark = "isDark";
+  static String hiveinit = "hiveinit";
+  static String firstName = "firstName";
+  static String lastName = "lastName";
+  static String username = "username";
+  static String address = "address";
+  static String countryCode = "countryCode";
+  static String languageId = "languageId";
+  static String country = "country";
+  static String userPin = "userPin";
+  static String email = "email";
+  static String userPass = "userPass";
+  static String userEmail = "userEmail";
+  static String userPhone = "userPhone";
+  static String userProfile = "userProfile";
+  static String userPhoneCode = "userPhoneCode";
+  static String isNewUser = "isNewUser";
+  static String isRemember = "isRemember";
+  static String channelName = "channelName";
+  static String languageData = "languageData";
+  static String baseCurrency = "baseCurrency";
+  static String isNotificationSeen = "isNotificationSeen";
+  static String accountNumber = "accountNumber";
+  static String accountBalance = "accountBalance";
+  static String user = "user";
+  static String profilePic = "profilePic";
+  static String payscribeId = "payscribeId";
+  static String reward = 'reward';
+  static String link = 'link';
+  static String kyc = 'kyc';
+  static String tier = 'tier';
+  static String userWallets = "userWallets";
+
+}
