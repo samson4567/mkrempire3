@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mkrempire/app/controllers/app_controller.dart';
 import 'package:mkrempire/app/controllers/navController.dart';
+import 'package:mkrempire/app/controllers/theme_controller.dart';
 import 'package:mkrempire/app/helpers/hive_helper.dart';
 import 'package:mkrempire/app/helpers/keys.dart';
 import 'package:mkrempire/config/app_colors.dart';
@@ -17,16 +20,13 @@ import 'package:mkrempire/resources/screens/others/referralScreen.dart';
 import 'package:mkrempire/resources/screens/others/resetPin.dart';
 import 'package:mkrempire/resources/screens/others/supportsScreen.dart';
 import 'package:mkrempire/resources/widgets/custom_app_bar.dart';
-import 'package:mkrempire/resources/widgets/custom_transation_pin.dart';
 import 'package:mkrempire/routes/route_names.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../app/controllers/profile_controller.dart';
 import '../../../config/app_themes.dart';
 
 class MoreScreen extends StatefulWidget {
-  const MoreScreen({Key? key}) : super(key: key);
+  const MoreScreen({super.key});
 
   @override
   State<MoreScreen> createState() => _MoreScreenState();
@@ -34,7 +34,7 @@ class MoreScreen extends StatefulWidget {
 
 class _MoreScreenState extends State<MoreScreen> {
   bool _isDarkMode = false;
-  bool _isBiometricEnabled = false;
+  final bool _isBiometricEnabled = false;
   final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
@@ -197,7 +197,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                 () =>
                                     profileController.isUploadingPhoto.value ==
                                             true
-                                        ? Center(
+                                        ? const Center(
                                             child: CircularProgressIndicator(
                                               color: AppColors.whiteColor,
                                             ),
@@ -237,16 +237,16 @@ class _MoreScreenState extends State<MoreScreen> {
                             children: [
                               Text(
                                 '${HiveHelper.read(Keys.firstName)} ${HiveHelper.read(Keys.lastName)}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 HiveHelper.read(Keys.accountNumber),
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
                               ),
                             ],
                           ),
@@ -257,7 +257,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     const SizedBox(height: 20),
                     Container(
                       // height: 300,
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Get.isDarkMode
                             ? AppColors.whiteColor.withOpacity(0.1)
@@ -270,7 +270,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     const SizedBox(height: 20),
                     Container(
                         // height: 300,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Get.isDarkMode
                               ? AppColors.whiteColor.withOpacity(0.1)
@@ -300,8 +300,10 @@ class _MoreScreenState extends State<MoreScreen> {
                             _buildToggleSetting(
                               icon: Icons.light_mode,
                               title: 'Switch between light & dark mode',
-                              value: Get.isDarkMode == true,
+                              value:
+                                  Get.find<ThemeController>().isDarkMode.value,
                               onChanged: (value) {
+                                Get.find<ThemeController>().toggleTheme(value);
                                 appController.selectedIndex = value ? 1 : 2;
                                 appController.onChanged(value);
 
@@ -322,7 +324,8 @@ class _MoreScreenState extends State<MoreScreen> {
                             _buildSettingsItem(
                                 icon: Icons.logout,
                                 title: 'Logout',
-                                subtitle: 'Logout from ${AppConstants.appName} account',
+                                subtitle:
+                                    'Logout from ${AppConstants.appName} account',
                                 onTap: () => buildLogoutDialog(
                                       context,
                                       Theme.of(context).textTheme,
@@ -335,7 +338,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     // App Version
                     Center(
                       child: Text(
-                        '${AppConstants.appName}',
+                        AppConstants.appName,
                         style: TextStyle(color: Colors.grey[600]),
                       ),
                     ),
@@ -357,7 +360,7 @@ class _MoreScreenState extends State<MoreScreen> {
             radius: 20,
             backgroundColor: AppColors.mainColor.withOpacity(0.05),
             child: SvgPicture.asset(
-              "assets/svgs/${icon}.svg",
+              "assets/svgs/$icon.svg",
               height: 22,
               width: 25,
               color: color,
@@ -386,7 +389,7 @@ class _MoreScreenState extends State<MoreScreen> {
       ),
       title: Text(
         title,
-        style: TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 15),
       ),
       subtitle: Text(
         subtitle,
@@ -411,7 +414,7 @@ class _MoreScreenState extends State<MoreScreen> {
       ),
       title: Text(
         title,
-        style: TextStyle(fontSize: 12),
+        style: const TextStyle(fontSize: 12),
       ),
       trailing: Switch(
         value: value,
@@ -436,7 +439,8 @@ class _MoreScreenState extends State<MoreScreen> {
           ),
           content: Text(
             "Do you want to Log Out?",
-            style: t.bodyMedium?.copyWith(color: Get.isDarkMode == true ? Colors.white : Colors.black),
+            style: t.bodyMedium?.copyWith(
+                color: Get.isDarkMode == true ? Colors.white : Colors.black),
           ),
           actions: [
             MaterialButton(
@@ -530,9 +534,9 @@ class _MoreScreenState extends State<MoreScreen> {
     {
       'title': 'Edit Profile',
       'svg': 'edit',
-      'color': Color(0xff12B600),
+      'color': const Color(0xff12B600),
       'ontap': () {
-        Get.to(() => EditProfile());
+        Get.to(() => const EditProfile());
       },
     },
     // {
@@ -555,41 +559,41 @@ class _MoreScreenState extends State<MoreScreen> {
     {
       'title': 'KYC',
       'svg': 'kyc',
-      'color': Color(0xFFFF00FF),
+      'color': const Color(0xFFFF00FF),
       'ontap': () {
-        Get.to(() => KYCScreen());
+        Get.to(() => const KYCScreen());
       },
     },
     {
       'title': 'Support',
       'svg': 'support',
-      'color': Color(0xffFF8900),
+      'color': const Color(0xffFF8900),
       'ontap': () {
-        Get.to(() => SupportsScreen());
+        Get.to(() => const SupportsScreen());
       },
     },
     {
       'title': 'Referral',
       'svg': 'referral',
-      'color': Color(0xffF45521),
+      'color': const Color(0xffF45521),
       'ontap': () {
-        Get.to(() => ReferralScreen());
+        Get.to(() => const ReferralScreen());
       },
     },
     {
       'title': 'Password',
       'svg': 'password',
-      'color': Color(0xffFF8900),
+      'color': const Color(0xffFF8900),
       'ontap': () {
-        Get.to(() => ChangePasswords());
+        Get.to(() => const ChangePasswords());
       },
     },
     {
       'title': 'Pin',
       'svg': 'pin',
-      'color': Color(0xffF45521),
+      'color': const Color(0xffF45521),
       'ontap': () {
-        Get.to(() => ResetPin());
+        Get.to(() => const ResetPin());
       },
     },
   ];

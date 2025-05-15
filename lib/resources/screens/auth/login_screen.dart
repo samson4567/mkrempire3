@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:mkrempire/app/controllers/auth_controller.dart';
 import 'package:mkrempire/app/helpers/hive_helper.dart';
 import 'package:mkrempire/resources/screens/auth/forgotPassword.dart';
 import 'package:mkrempire/resources/widgets/custom_app_button.dart';
 import 'package:mkrempire/resources/widgets/custom_textfield.dart';
 import 'package:mkrempire/routes/route_names.dart';
-import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.fill,
               ),
               Container(
-                padding: EdgeInsets.all(30),
+                padding: const EdgeInsets.all(30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: authController.emailEditingController,
                       hintText: 'Email',
                       keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.alternate_email,
                       ),
                     ),
@@ -72,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Password',
                       obscureText: true,
                       maxlines: 1,
-                      prefixIcon: Icon(Icons.lock_outline),
+                      prefixIcon: const Icon(Icons.lock_outline),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -80,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.to(() => Forgotpassword());
+                            Get.to(() => const Forgotpassword());
                           },
                           child: Text(
                             'Forgot Password?',
@@ -92,9 +91,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Obx(() {
-                      return Container(
+                      return SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 60.h,
                         child:
@@ -128,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           )),
                     ]),
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),

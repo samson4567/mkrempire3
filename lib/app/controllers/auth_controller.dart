@@ -1,7 +1,7 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:mkrempire/app/controllers/app_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mkrempire/app/controllers/profile_controller.dart';
 import 'package:mkrempire/app/helpers/hive_helper.dart';
 import 'package:mkrempire/app/helpers/keys.dart';
@@ -11,7 +11,6 @@ import 'package:mkrempire/resources/screens/auth/login_screen.dart';
 import 'package:mkrempire/resources/screens/auth/set_pin_screen.dart';
 import 'package:mkrempire/resources/widgets/custom_dialog.dart';
 import 'package:mkrempire/routes/route_names.dart';
-import 'package:get/get.dart';
 
 import '../../resources/screens/auth/resetPassword.dart';
 import '../../resources/widgets/custom_app_button.dart';
@@ -97,6 +96,8 @@ class AuthController extends GetxController {
       print('{email: $singInEmailVal, password: $singInPassVal}}');
       final response =
           await authRepo.login(email: singInEmailVal, password: singInPassVal);
+
+      print(response);
       if (response['status'] == 'success') {
         setOnboarded(true);
         final message = response['message'];
@@ -144,26 +145,25 @@ class AuthController extends GetxController {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           size: 50,
                           color: Colors.green,
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'Success',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'User Logged in successfully',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.black87),
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         const SizedBox(height: 20),
                         Obx(() => CustomAppButton(
@@ -215,16 +215,16 @@ class AuthController extends GetxController {
     isSending.value = true;
     try {
       final response = await authRepo.dashboard();
-      // if (response['message'] == 'Email Verification Required') {
+      print(response);
+      if (response['message'] == 'Email Verification Required') {
+        Get.toNamed(RoutesName.emailOtpScreen);
+      } else {
+        Get.offAllNamed(RoutesName.bottomNavBar);
+      }
+      print('$response');
+      // if (response['status'] == 'success') {
       //   Get.toNamed(RoutesName.emailOtpScreen);
       // }
-      // else {
-      //   Get.offAllNamed(RoutesName.bottomNavBar);
-      // }
-      print('$response');
-      if (response['status'] == 'success') {
-        Get.toNamed(RoutesName.emailOtpScreen);
-      }
     } catch (e) {
       print('Error fetching dashboard data: $e');
     } finally {
@@ -359,26 +359,25 @@ class AuthController extends GetxController {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.check_circle_outline,
                           size: 50,
                           color: Colors.green,
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'Success',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        const Text(
                           'User Logged in successfully',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.black87),
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         const SizedBox(height: 20),
                         Obx(() => CustomAppButton(
@@ -757,7 +756,7 @@ class AuthController extends GetxController {
       final response = await authRepo.displayAds();
       if (response['status'] == 'success') {
         ads.value = response['data'] ?? [];
-        print('Ads fetched successfully: ${ads}');
+        print('Ads fetched successfully: $ads');
       } else {
         print('Failed to fetch ads: ${response['message']}');
       }

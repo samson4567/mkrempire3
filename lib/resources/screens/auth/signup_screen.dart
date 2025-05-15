@@ -1,15 +1,13 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:mkrempire/app/controllers/auth_controller.dart';
 import 'package:mkrempire/config/app_contants.dart';
 import 'package:mkrempire/resources/widgets/custom_app_button.dart';
-import 'package:mkrempire/resources/widgets/custom_dialog.dart';
 import 'package:mkrempire/resources/widgets/custom_textfield.dart';
 import 'package:mkrempire/routes/route_names.dart';
-import 'package:get/get.dart';
 
 import '../../../config/app_colors.dart';
 import '../../../config/app_themes.dart';
@@ -32,7 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Gap(20),
+              const Gap(20),
               Center(
                 child: Image.asset(
                   'assets/images/white_logo.png',
@@ -75,7 +73,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       return CustomTextField(
                         controller: controller.lNameController.value,
                         hintText: 'Last Name',
-                        prefixIcon: Icon(Icons.person),
+                        prefixIcon: const Icon(Icons.person),
                         onChanged: (val) => controller.update(),
                       );
                     }),
@@ -85,7 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       return CustomTextField(
                         controller: controller.emailController.value,
                         hintText: 'Email',
-                        prefixIcon: Icon(Icons.mail),
+                        prefixIcon: const Icon(Icons.mail),
                         onChanged: (val) => controller.update(),
                       );
                     }),
@@ -144,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: 'Password',
                         maxlines: 1,
                         obscureText: true,
-                        prefixIcon: Icon(Icons.password),
+                        prefixIcon: const Icon(Icons.password),
                         onChanged: (val) => controller.update(),
                       );
                     }),
@@ -155,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: controller.confirmPasswordController.value,
                         hintText: 'Confirm Password',
                         obscureText: true,
-                        prefixIcon: Icon(Icons.password),
+                        prefixIcon: const Icon(Icons.password),
                         onChanged: (val) => controller.update(),
                       );
                     }),
@@ -210,6 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           )),
                     ]),
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),

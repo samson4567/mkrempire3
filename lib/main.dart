@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mkrempire/app/controllers/app_controller.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:mkrempire/app/bindings/init_binding.dart';
+import 'package:mkrempire/app/controllers/theme_controller.dart';
 import 'package:mkrempire/app/helpers/init_hive.dart';
 import 'package:mkrempire/config/app_contants.dart';
 import 'package:mkrempire/config/app_themes.dart';
 import 'package:mkrempire/routes/route_helper.dart';
 import 'package:mkrempire/routes/route_names.dart';
-import 'package:get/get.dart';
-import 'package:mkrempire/app/bindings/init_binding.dart';
 
 import 'app/helpers/hive_helper.dart';
 import 'app/helpers/keys.dart';
@@ -19,6 +20,9 @@ void main() async {
     initHive(),
     Future.delayed(const Duration(milliseconds: 4)),
   ]);
+  await Hive.openBox('settings');
+  // Initialize theme controller early
+  await Get.putAsync(() async => ThemeController());
   runApp(const MyApp());
 }
 
@@ -64,8 +68,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         HiveHelper.remove(Keys.token);
         Get.offNamedUntil(
             RoutesName.loginScreen,
-                (route) =>
-            (route as GetPageRoute).routeName == RoutesName.loginScreen);
+            (route) =>
+                (route as GetPageRoute).routeName == RoutesName.loginScreen);
         // Get.dialog(Timeout());
       }
     }
@@ -89,7 +93,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             theme: AppThemes.lightTheme,
             darkTheme: AppThemes.darkTheme,
             initialBinding: InitBindings(),
-            themeMode: ThemeMode.light,
+            themeMode: Get.find<ThemeController>().isDarkMode.value
+                ? ThemeMode.dark
+                : ThemeMode.light,
             initialRoute: RoutesName.initial,
             getPages: RouteHelper.routes(),
           );

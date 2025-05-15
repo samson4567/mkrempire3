@@ -1,9 +1,9 @@
+import 'package:get/get.dart';
 import 'package:mkrempire/app/controllers/app_controller.dart';
 import 'package:mkrempire/app/controllers/auth_controller.dart';
 import 'package:mkrempire/app/controllers/history_controller.dart';
+import 'package:mkrempire/app/controllers/theme_controller.dart';
 import 'package:mkrempire/app/repository/hidtory_repo.dart';
-import 'package:get/get.dart';
-import 'package:get/get_instance/src/bindings_interface.dart';
 
 import '../controllers/bill_payments_controller.dart';
 import '../controllers/crypto_controller.dart';
@@ -12,6 +12,7 @@ import '../controllers/profile_controller.dart';
 class InitBindings implements Bindings {
   @override
   void dependencies() {
+    Get.lazyPut(() => ThemeController());
     Get.put(AuthController());
     Get.put(AppController());
     Get.put(HistoryController(historyRepo: HistoryRepo()));

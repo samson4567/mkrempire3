@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:mkrempire/app/controllers/auth_controller.dart';
 import 'package:mkrempire/app/helpers/hive_helper.dart';
 import 'package:mkrempire/app/helpers/keys.dart';
 import 'package:mkrempire/config/app_colors.dart';
 import 'package:mkrempire/resources/widgets/custom_app_bar.dart';
 import 'package:mkrempire/resources/widgets/custom_dialog.dart';
-import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 
 import '../../widgets/custom_app_button.dart';
 import '../../widgets/custom_textfield.dart';
@@ -33,10 +33,9 @@ class _SetPinScreenState extends State<SetPinScreen> {
         body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                  child: Container(
-                padding:
-                    EdgeInsets.only(bottom: 150, left: 16, right: 16, top: 16),
+              Container(
+                padding: const EdgeInsets.only(
+                    bottom: 150, left: 16, right: 16, top: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +54,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
                     // Text('$firstname'.toUpperCase(),
                     //     style: TextStyle(
                     //         fontSize: 24, fontWeight: FontWeight.bold)),
-                    Gap(30),
+                    const Gap(30),
                     Text(
                       "Please set your pin to access your mkrempire account and make seamless transactions ",
                       style: Theme.of(context).textTheme.bodyMedium,
@@ -67,7 +66,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
                       "New Pin",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Gap(10),
+                    const Gap(10),
                     Obx(() => CustomTextField(
                           maxLength: 4,
                           hintText: 'Enter New Pin',
@@ -77,12 +76,12 @@ class _SetPinScreenState extends State<SetPinScreen> {
                             authPinVal.value = v;
                           },
                         )),
-                    Gap(20),
+                    const Gap(20),
                     Text(
                       "Confirm Pin",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Gap(10),
+                    const Gap(10),
                     Obx(() => CustomTextField(
                         maxLength: 4,
                         hintText: 'Confirm Pin',
@@ -92,7 +91,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
                         onChanged: (v) {
                           confirmauthPinVal.value = v;
                         })),
-                    Gap(20),
+                    const Gap(20),
                     Obx(() => Container(
                           color: Colors.transparent,
                           child: CustomAppButton(
@@ -126,7 +125,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
                         )),
                   ],
                 ),
-              ))
+              )
             ]));
   }
 }
