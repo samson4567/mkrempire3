@@ -111,14 +111,14 @@ class CustomDialog {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      message,
-                      textAlign: TextAlign.center,
-                      style:
-                          const TextStyle(fontSize: 14, color: Colors.black87),
-                    ),
+                    // Text(
+                    //   message,
+                    //   textAlign: TextAlign.center,
+                    //   style:
+                    //       const TextStyle(fontSize: 14, color: Colors.black87),
+                    // ),
                     SizedBox(
-                      height: electricityToken != null ? 24 : 0,
+                      height: electricityToken != null ? 10 : 0,
                     ),
                     Visibility(
                       visible: electricityToken != null,
@@ -126,10 +126,12 @@ class CustomDialog {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            electricityToken ?? '',
+                            'Electricity Token:   ${electricityToken ?? ''}',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                                fontSize: 14, color: Colors.black),
+                                fontSize: 17,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
                           ),
                           IconButton(
                               onPressed: () async {
