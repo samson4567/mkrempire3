@@ -736,6 +736,8 @@ class BillPaymentsController extends GetxController {
               if (fundResponse['status'] == true) {
                 isLoading.value = false;
                 CustomDialog.showSuccess(
+                    electricityToken: fundResponse['message']['details']
+                        ['token'],
                     context: context,
                     message: 'Top Up successful ',
                     buttonText: 'Continue',

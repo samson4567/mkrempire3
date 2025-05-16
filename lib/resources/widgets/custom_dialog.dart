@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mkrempire/resources/widgets/custom_app_button.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 class CustomDialog {
   static void showError(
@@ -25,11 +26,13 @@ class CustomDialog {
   static void showSuccess(
       {required BuildContext context,
       required String message,
+      String? electricityToken,
       String title = 'Success',
       required String buttonText,
       bool isLoading = false,
       dynamic buttonAction}) {
     _showDialog(
+      electricityToken: electricityToken,
       context,
       icon: Icons.check_circle_outline,
       iconColor: Colors.green,
@@ -63,6 +66,7 @@ class CustomDialog {
 
   static void _showDialog(BuildContext context,
       {required IconData icon,
+      String? electricityToken,
       required Color iconColor,
       required String title,
       required String message,
@@ -113,6 +117,28 @@ class CustomDialog {
                       style:
                           const TextStyle(fontSize: 14, color: Colors.black87),
                     ),
+                    SizedBox(
+                      height: electricityToken != null ? 24 : 0,
+                    ),
+                    Visibility(
+                      visible: electricityToken != null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            electricityToken ?? '',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black),
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                await _copyToClipBoard(electricityToken ?? '');
+                              },
+                              icon: const Icon(Icons.copy))
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     CustomAppButton(
                       isLoading: isLoading,
@@ -127,5 +153,10 @@ class CustomDialog {
         );
       },
     );
+  }
+
+  static Future<void> _copyToClipBoard(String value) async {
+    final data = ClipboardData(text: value);
+    await Clipboard.setData(data);
   }
 }

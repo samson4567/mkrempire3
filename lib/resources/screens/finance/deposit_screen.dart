@@ -77,7 +77,7 @@ class _DepositScreenState extends State<DepositScreen> {
                       text: 'Copy account number',
                       borderRadius: BorderRadius.all(Radius.circular(32.r)),
                       buttonWidth: 200.w,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: AppColors.whiteColor,
                       ),
@@ -95,7 +95,7 @@ class _DepositScreenState extends State<DepositScreen> {
                       text: 'Share Details',
                       buttonWidth: 150.w,
                       borderRadius: BorderRadius.all(Radius.circular(32.r)),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: AppColors.whiteColor,
                       ),
@@ -114,7 +114,7 @@ class _DepositScreenState extends State<DepositScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
