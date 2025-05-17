@@ -513,6 +513,7 @@ class AuthController extends GetxController {
         phoneCode: phoneCode,
         country: countryName,
         countryCode: countryCode);
+    print(response);
     if (response['status'] == "success") {
       final message = response['user'];
       setOnboarded(true);

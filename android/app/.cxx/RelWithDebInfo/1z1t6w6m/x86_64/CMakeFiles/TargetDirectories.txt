@@ -1,0 +1,2 @@
+/home/koln/mkrempire3/android/app/.cxx/RelWithDebInfo/1z1t6w6m/x86_64/CMakeFiles/edit_cache.dir
+/home/koln/mkrempire3/android/app/.cxx/RelWithDebInfo/1z1t6w6m/x86_64/CMakeFiles/rebuild_cache.dir
