@@ -26,6 +26,7 @@ class CustomDialog {
   static void showSuccess(
       {required BuildContext context,
       required String message,
+      String? necoPin,
       String? electricityToken,
       String title = 'Success',
       required String buttonText,
@@ -33,6 +34,7 @@ class CustomDialog {
       dynamic buttonAction}) {
     _showDialog(
       electricityToken: electricityToken,
+      necoPin: necoPin,
       context,
       icon: Icons.check_circle_outline,
       iconColor: Colors.green,
@@ -66,6 +68,7 @@ class CustomDialog {
 
   static void _showDialog(BuildContext context,
       {required IconData icon,
+      String? necoPin,
       String? electricityToken,
       required Color iconColor,
       required String title,
@@ -111,12 +114,12 @@ class CustomDialog {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Text(
-                    //   message,
-                    //   textAlign: TextAlign.center,
-                    //   style:
-                    //       const TextStyle(fontSize: 14, color: Colors.black87),
-                    // ),
+                    Text(
+                      message,
+                      textAlign: TextAlign.center,
+                      style:
+                          const TextStyle(fontSize: 14, color: Colors.black87),
+                    ),
                     SizedBox(
                       height: electricityToken != null ? 10 : 0,
                     ),
@@ -126,7 +129,7 @@ class CustomDialog {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Electricity Token:   ${electricityToken ?? ''}',
+                            'Electricity Token:${electricityToken ?? ''}',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 17,
@@ -136,6 +139,87 @@ class CustomDialog {
                           IconButton(
                               onPressed: () async {
                                 await _copyToClipBoard(electricityToken ?? '');
+                              },
+                              icon: const Icon(Icons.copy))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    CustomAppButton(
+                      isLoading: isLoading,
+                      onTap: buttonAction,
+                      text: buttonText,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.3, // Default height (30% of screen)
+          minChildSize: 0.2, // Minimum height (20% of screen)
+          maxChildSize: 0.7, // Maximum height (70% of screen)
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 50,
+                      color: iconColor,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      message,
+                      textAlign: TextAlign.center,
+                      style:
+                          const TextStyle(fontSize: 14, color: Colors.black87),
+                    ),
+                    SizedBox(
+                      height: necoPin != null ? 10 : 0,
+                    ),
+                    Visibility(
+                      visible: electricityToken != null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'neco pin:   ${necoPin ?? ''}',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 17,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                await _copyToClipBoard(necoPin ?? '');
                               },
                               icon: const Icon(Icons.copy))
                         ],

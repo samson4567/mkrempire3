@@ -65,6 +65,7 @@ class Waeccontroller extends GetxController {
 
         await balance.getBalance();
         CustomDialog.showSuccess(
+            necoPin: response['messages']['details']['pin'],
             context: Get.context!,
             message: "ePin purchase successful!",
             buttonText: "Close",
