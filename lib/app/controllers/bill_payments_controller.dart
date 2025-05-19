@@ -250,7 +250,7 @@ class BillPaymentsController extends GetxController {
 
       print('airtime response: $response ');
       if (response['status'] == 'true') {
-        CustomDialog.showWarning(
+        CustomDialog.showSuccess(
             context: context,
             message: '${response['description']}',
             buttonText: 'Home',
@@ -707,11 +707,13 @@ class BillPaymentsController extends GetxController {
     var meterNumber = meterNumberController.text;
     var amount = double.parse(electamountController.text);
     var service = serviceID.value;
-
+    print("debug_print-payElectricity-started");
     try {
       final response = await billpaymentRepo.validateElectricity(
           meterNumber, meterType, amount, service);
-
+      print("debug_print-payElectricity-validateElectricity_done");
+      print(
+          "debug_print-payElectricity-response['status']_${response['status']}");
       if (response['status'] == true) {
         customerNameController.text =
             '${response['message']['details']['customer_name']}';
@@ -726,6 +728,7 @@ class BillPaymentsController extends GetxController {
             buttonAction: () async {
               isLoading.value = true;
               Get.back();
+              print("debug_print-payElectricity-Pay_Now-clicked}");
               final fundResponse = await billpaymentRepo.payElectricity(
                   meterNumber,
                   meterType,
@@ -733,8 +736,11 @@ class BillPaymentsController extends GetxController {
                   service,
                   customerNameController.value.text);
 
+              print("debug_print-payElectricity-Pay_Now-${fundResponse}");
               if (fundResponse['status'] == true) {
                 isLoading.value = false;
+                print(
+                    "debug_print-payElectricity-electricityToken_parent-${fundResponse['message']['details']['token']}");
                 CustomDialog.showSuccess(
                     electricityToken: fundResponse['message']['details']
                         ['token'],

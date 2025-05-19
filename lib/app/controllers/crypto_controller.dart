@@ -33,14 +33,14 @@ class CryptoController extends GetxController {
   RxDouble coinBalance = 0.00.obs;
   RxDouble withdrawableAmount = 0.00.obs;
   Map<String, dynamic> dashboardData = {};
-  RxMap<String,dynamic> swapRateLists = <String,dynamic>{}.obs;
+  RxMap<String, dynamic> swapRateLists = <String, dynamic>{}.obs;
   RxList<dynamic> histories = <dynamic>[].obs;
   RxList<dynamic> bankList = <dynamic>[].obs;
-  RxMap<String,dynamic> tickers = <String,dynamic>{}.obs;
-  RxMap<String,dynamic>  ethData = <String,dynamic>{}.obs;
-  RxMap<String,dynamic>  tradeResponse = <String,dynamic>{}.obs;
-  Map<String,dynamic> selectedGateway = {};
-  Map<String,dynamic> selectedCrypto = {};
+  RxMap<String, dynamic> tickers = <String, dynamic>{}.obs;
+  RxMap<String, dynamic> ethData = <String, dynamic>{}.obs;
+  RxMap<String, dynamic> tradeResponse = <String, dynamic>{}.obs;
+  Map<String, dynamic> selectedGateway = {};
+  Map<String, dynamic> selectedCrypto = {};
   double conversionRate = 0.00;
   var selectedBankCode = ''.obs;
   var selectedBankName = 'Select bank'.obs;
@@ -48,7 +48,7 @@ class CryptoController extends GetxController {
   var selectedCurrencyCode = '\$'.obs;
   var currencyBalance = 0.00.obs;
 
-  Network selectedNetwork =  Network.fromJson( {
+  Network selectedNetwork = Network.fromJson({
     "chainType": "",
     "confirmation": "1",
     "withdrawFee": "0",
@@ -72,6 +72,7 @@ class CryptoController extends GetxController {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.getAllowedDepositCoins();
+      print("dsbdjkabdsjkdajsdhajhda-response_is_${response}");
       if (response != null && response['configList'] != null) {
         List<CoinModel> newList = (response['configList'] as List)
             .map((e) => CoinModel.fromJson(e))
@@ -90,7 +91,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   Future<void> getAllowedWithdrawCoins() async {
     Future.delayed(Duration(seconds: 2));
@@ -116,7 +116,6 @@ class CryptoController extends GetxController {
     }
   }
 
-
   Future<void> getCryptoBalance(String coin) async {
     cryptoBalances.value = [];
     cryptoBalanceDatas.value = [];
@@ -125,10 +124,10 @@ class CryptoController extends GetxController {
     try {
       final response = await cryptoRepo.getCryptoBalance(coin);
       if (response != null && response['balance'] != null) {
-      coinBalance.value = double.parse(response['balance'].toString());
-      cryptoBalances.addAll(response['bybit']);
-      cryptoBalanceDatas.addAll(response['cryptocompare']);
-      coinMarketcap.addAll(response['coinmarketcap']);
+        coinBalance.value = double.parse(response['balance'].toString());
+        cryptoBalances.addAll(response['bybit']);
+        cryptoBalanceDatas.addAll(response['cryptocompare']);
+        coinMarketcap.addAll(response['coinmarketcap']);
       } else {
         print("No balance found in the response.");
       }
@@ -141,13 +140,11 @@ class CryptoController extends GetxController {
     }
   }
 
-
-
   Future getSingleCryptoBalance(String coin) async {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.getSingleCryptoBalance(coin);
-      if(response['status'] == 'success') {
+      if (response['status'] == 'success') {
         tradeResponse.addAll(response);
       }
       return response;
@@ -157,7 +154,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   Future<void> getETHData() async {
     // isLoading.value = true;
@@ -171,9 +167,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
-
 
   Future<void> getCoinInfo(String coin) async {
     isLoading.value = true;
@@ -196,16 +189,14 @@ class CryptoController extends GetxController {
     }
   }
 
-
-
   Future<void> deposit(String coin, String chainType) async {
     isLoading.value = true;
     // depositAddressModel = null;
     try {
       print("$coin, $chainType");
-      final response = await cryptoRepo.deposit(coin,chainType);
+      final response = await cryptoRepo.deposit(coin, chainType);
       print(response);
-      depositAddressModel =  DepositAddressModel.fromJson(response['chains']);
+      depositAddressModel = DepositAddressModel.fromJson(response['chains']);
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -218,9 +209,10 @@ class CryptoController extends GetxController {
     // depositAddressModel = null;
     try {
       print("$coin, $chainType");
-      final response = await cryptoRepo.getMasterDepositAddress(coin,chainType);
+      final response =
+          await cryptoRepo.getMasterDepositAddress(coin, chainType);
       print(response);
-      depositAddressModel =  DepositAddressModel.fromJson(response['chains']);
+      depositAddressModel = DepositAddressModel.fromJson(response['chains']);
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -228,18 +220,25 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future<void> withdraw(context, coin,chain,address, amount) async {
+  Future<void> withdraw(context, coin, chain, address, amount) async {
     isLoading.value = true;
     // depositAddressModel = null;
     try {
       // print("$coin, $chainType");
-      final response = await cryptoRepo.withdraw(coin,chain,address, amount);
+      final response = await cryptoRepo.withdraw(coin, chain, address, amount);
       print(response);
-      if(response['status'] == 'error'){
-        CustomDialog.showWarning(buttonAction: ()=> Get.back(), context: context, message: "${response['message']}", buttonText: 'Cancel');
-      }else{
-        CustomDialog.showSuccess(buttonAction: ()=> Get.offAllNamed(RoutesName.bottomNavBar),context: context, message: "Withdrwal Successful", buttonText: 'Home');
+      if (response['status'] == 'error') {
+        CustomDialog.showWarning(
+            buttonAction: () => Get.back(),
+            context: context,
+            message: "${response['message']}",
+            buttonText: 'Cancel');
+      } else {
+        CustomDialog.showSuccess(
+            buttonAction: () => Get.offAllNamed(RoutesName.bottomNavBar),
+            context: context,
+            message: "Withdrwal Successful",
+            buttonText: 'Home');
       }
       // depositAddressModel =  DepositAddressModel.fromJson(response['chains']);
     } catch (e) {
@@ -249,15 +248,23 @@ class CryptoController extends GetxController {
     }
   }
 
-  Future<void> stakeCrypto(coin,productId, amount) async {
+  Future<void> stakeCrypto(coin, productId, amount) async {
     isLoading.value = true;
     try {
-      final response = await cryptoRepo.stakeCrypto(coin,productId, amount);
+      final response = await cryptoRepo.stakeCrypto(coin, productId, amount);
       print(response);
-      if(response['status'] == 'error'){
-        CustomDialog.showWarning(buttonAction: ()=> Get.back(), context: context, message: "${response['message']}", buttonText: 'Cancel');
-      }else{
-        CustomDialog.showSuccess(buttonAction: ()=> Get.offAllNamed(RoutesName.bottomNavBar),context: context, message: "$coin Staked Successful", buttonText: 'Home');
+      if (response['status'] == 'error') {
+        CustomDialog.showWarning(
+            buttonAction: () => Get.back(),
+            context: context,
+            message: "${response['message']}",
+            buttonText: 'Cancel');
+      } else {
+        CustomDialog.showSuccess(
+            buttonAction: () => Get.offAllNamed(RoutesName.bottomNavBar),
+            context: context,
+            message: "$coin Staked Successful",
+            buttonText: 'Home');
       }
     } catch (e) {
       print("Error: $e");
@@ -266,19 +273,18 @@ class CryptoController extends GetxController {
     }
   }
 
-
   Future<void> getTickers() async {
     // isLoading.value = true;
     // tickers.value = {};
     var coin = "BTCUSDT,SOLUSDT,ETHUSDT,DOGEUSDT,XRPUSDT";
     try {
-
       final response = await cryptoRepo.getTickers(coin);
       // print(response);
-      if(response['status'] == 'error'){
-        Get.snackbar('Error',  "${response['message']}", backgroundColor: Colors.red, colorText: Colors.white);
+      if (response['status'] == 'error') {
+        Get.snackbar('Error', "${response['message']}",
+            backgroundColor: Colors.red, colorText: Colors.white);
         // CustomDialog.showWarning(buttonAction: ()=> Get.back(), context: context, message: "${response['message']}", buttonText: 'Cancel');
-      }else{
+      } else {
         tickers.addAll(response['message']);
         // CustomDialog.showSuccess(buttonAction: ()=> Get.offAllNamed(RoutesName.bottomNavBar),context: context, message: "$coin Staked Successful", buttonText: 'Home');
       }
@@ -289,17 +295,15 @@ class CryptoController extends GetxController {
     }
   }
 
-
-
   Future<void> getMarkets() async {
     // isLoading.value = true;
 
     try {
-
-      final response = await cryptoRepo.getMarkets('100','USD');
-      if(response['status'] == 'error'){
-        Get.snackbar('Error',  "${response['message']}", backgroundColor: Colors.red, colorText: Colors.white);
-      }else{
+      final response = await cryptoRepo.getMarkets('100', 'USD');
+      if (response['status'] == 'error') {
+        Get.snackbar('Error', "${response['message']}",
+            backgroundColor: Colors.red, colorText: Colors.white);
+      } else {
         // print(response['message']);
         markets.value = [];
         markets.addAll(response['message']);
@@ -310,9 +314,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
-
 
   Future<void> getRecord() async {
     isLoading.value = true;
@@ -329,7 +330,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   Future<void> getCryptoWithdrawalHistory() async {
     isLoading.value = true;
@@ -370,14 +370,12 @@ class CryptoController extends GetxController {
       final response = await cryptoRepo.getSwapCoinList();
       print(response);
       swapCoinLists.addAll(response['coins']);
-
     } catch (e) {
       print("Error: $e");
     } finally {
       isLoading.value = false;
     }
   }
-
 
   Future<void> getStakeProductInfo(coin) async {
     isLoading.value = true;
@@ -386,16 +384,17 @@ class CryptoController extends GetxController {
       final response = await cryptoRepo.getStakeProductInfo(coin);
       print(response);
       // {status: error, message: {retCode: 180002, retMsg: Invalid coin, result: [], retExtInfo: [], time: 1741825809787}}
-      if(response['status'] == 'error'){
-        CustomDialog.showError(context: this.context, message: "$coin is not available for staking at the moment", buttonText: 'Cancel',
-            buttonAction: (){
+      if (response['status'] == 'error') {
+        CustomDialog.showError(
+            context: this.context,
+            message: "$coin is not available for staking at the moment",
+            buttonText: 'Cancel',
+            buttonAction: () {
               Get.back();
-            }
-        );
-      }else {
+            });
+      } else {
         stakeProducts.addAll(response['list']);
       }
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -403,19 +402,19 @@ class CryptoController extends GetxController {
     }
   }
 
-
-
-  Future<void> requestSwapRate(fromCoin,toCoin,amount) async {
+  Future<void> requestSwapRate(fromCoin, toCoin, amount) async {
     isLoading.value = true;
     try {
-      final response = await cryptoRepo.requestSwapRate(fromCoin,toCoin,amount);
+      final response =
+          await cryptoRepo.requestSwapRate(fromCoin, toCoin, amount);
       // print(response);
-      if(response['status'] == 'error'){
+      if (response['status'] == 'error') {
         CustomDialog.showError(
-            context: this.context, message: response['message'], buttonText: 'Cancel',
-            buttonAction: ()=>Get.back()
-        );
-      }else{
+            context: this.context,
+            message: response['message'],
+            buttonText: 'Cancel',
+            buttonAction: () => Get.back());
+      } else {
         swapRateLists.value = {};
         swapRateLists.value = response['message'];
       }
@@ -427,7 +426,6 @@ class CryptoController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   Future swap(quoteTxId) async {
     isLoading.value = true;
@@ -457,23 +455,24 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future placeOrder(symbol,quantity, side) async {
+  Future placeOrder(symbol, quantity, side) async {
     isLoading.value = true;
     try {
-      final response = await cryptoRepo.placeOrder(symbol,quantity, side);
+      final response = await cryptoRepo.placeOrder(symbol, quantity, side);
 
       // print(response);
-      CustomDialog.showSuccess(context: context, message: '$response', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
+      CustomDialog.showSuccess(
+          context: context,
+          message: '$response',
+          buttonText: 'Home',
+          buttonAction: () => Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
       isLoading.value = false;
     }
   }
-
 
   Future getCryptos() async {
     isLoading.value = true;
@@ -483,7 +482,6 @@ class CryptoController extends GetxController {
       print(response);
       // CustomDialog.showSuccess(context: context, message: '$response', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -499,7 +497,6 @@ class CryptoController extends GetxController {
       print(response['message']['gateways']);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response['message']['gateways'];
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -507,8 +504,7 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future  paymentRequest(Map<String,dynamic> body) async {
+  Future paymentRequest(Map<String, dynamic> body) async {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.paymentRequest(body);
@@ -516,22 +512,21 @@ class CryptoController extends GetxController {
       // print(response['message']['gateways']);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
       isLoading.value = false;
     }
   }
-  Future  manualPayment(Map<String,dynamic> body,String trx_id) async {
+
+  Future manualPayment(Map<String, dynamic> body, String trx_id) async {
     isLoading.value = true;
     try {
-      final response = await cryptoRepo.manualPayment(body,trx_id);
+      final response = await cryptoRepo.manualPayment(body, trx_id);
       //
       // print(response['message']['gateways']);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -539,7 +534,7 @@ class CryptoController extends GetxController {
     }
   }
 
-  Future  validate(Map<String,dynamic> body) async {
+  Future validate(Map<String, dynamic> body) async {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.validate(body);
@@ -547,14 +542,14 @@ class CryptoController extends GetxController {
       // print(response['message']['gateways']);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
       isLoading.value = false;
     }
   }
-  Future  withdrawFiat(Map<String,dynamic> body) async {
+
+  Future withdrawFiat(Map<String, dynamic> body) async {
     print(body);
     isLoading.value = true;
     try {
@@ -563,7 +558,6 @@ class CryptoController extends GetxController {
       print(response);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -571,8 +565,7 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future  fiatHistory() async {
+  Future fiatHistory() async {
     isLoading.value = true;
     histories.value = [];
     try {
@@ -580,7 +573,6 @@ class CryptoController extends GetxController {
       histories.addAll(response);
       print(response);
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -588,8 +580,7 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future  getBanks() async {
+  Future getBanks() async {
     isLoading.value = true;
     bankList.value = [];
     try {
@@ -597,7 +588,6 @@ class CryptoController extends GetxController {
       bankList.addAll(response['banks']);
       print(response['banks']);
       return response['banks'];
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -605,20 +595,17 @@ class CryptoController extends GetxController {
     }
   }
 
-
-
-  Future  dashboard() async {
+  Future dashboard() async {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.dashboard();
       dashboardData = response['message'];
-      HiveHelper.write(Keys.userWallets,dashboardData['wallets']);
+      HiveHelper.write(Keys.userWallets, dashboardData['wallets']);
       //
       print(dashboardData);
       currencyBalance.value = getBalanceForCurrency(selectedCurrencyCode.value);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response;
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -626,8 +613,7 @@ class CryptoController extends GetxController {
     }
   }
 
-
-  Future  createTempAccount(Map<String,dynamic>  body) async {
+  Future createTempAccount(Map<String, dynamic> body) async {
     isLoading.value = true;
     try {
       final response = await cryptoRepo.createTempAccount(body);
@@ -638,7 +624,6 @@ class CryptoController extends GetxController {
       // currencyBalance.value = getBalanceForCurrency(selectedCurrencyCode.value);
       // CustomDialog.showSuccess(context: context, message: '${response['message']['gateways']}', buttonText: 'Home', buttonAction: ()=>Get.to(BottomNavBar()));
       return response['message'];
-
     } catch (e) {
       print("Error: $e");
     } finally {
@@ -646,7 +631,7 @@ class CryptoController extends GetxController {
     }
   }
 
-  Future  verifyPayment(Map<String,dynamic>  body) async {
+  Future verifyPayment(Map<String, dynamic> body) async {
     // isLoading.value = true;
     try {
       final response = await cryptoRepo.verifyPayment(body);
@@ -662,18 +647,17 @@ class CryptoController extends GetxController {
 
   double getBalanceForCurrency(String code) {
     // Read the wallet data from Hive
-    var wallets = dashboardData['wallets'];//HiveHelper.read(Keys.userWallets);
+    var wallets = dashboardData['wallets']; //HiveHelper.read(Keys.userWallets);
     print(wallets);
     if (wallets != null) {
       // Assuming wallets is a List<Map<String, dynamic>>
       for (var wallet in wallets) {
-        if (wallet['currency_code'] == code.replaceAll('₦', 'NGN').replaceAll('\$', 'USD')) {
+        if (wallet['currency_code'] ==
+            code.replaceAll('₦', 'NGN').replaceAll('\$', 'USD')) {
           return double.parse(wallet['balance'].toString());
         }
       }
     }
     return 0.0; // Return 0 if no matching currency is found
   }
-
-
 }

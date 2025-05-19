@@ -18,9 +18,9 @@ class _BuyCryptoScreenState extends State<BuyCryptoScreen> {
   double currentPrice = 43250.75;
 
   // Get theme colors based on current mode
-  Color get primaryColor => Get.isDarkMode ? AppColors.mainColor : AppColors.mainColor;
-  Color get secondaryColor =>
-      AppColors.mainColor;
+  Color get primaryColor =>
+      Get.isDarkMode ? AppColors.mainColor : AppColors.mainColor;
+  Color get secondaryColor => AppColors.mainColor;
   Color get textColor => Get.isDarkMode ? Colors.white : Colors.black;
   Color get subtextColor => Get.isDarkMode ? Colors.white70 : Colors.black87;
   Color get backgroundColor => Get.isDarkMode ? Colors.black : Colors.white;
@@ -336,8 +336,7 @@ class _SellCryptoScreenState extends State<SellCryptoScreen> {
 
   // Get theme colors based on current mode
   Color get primaryColor => AppColors.mainColor;
-  Color get secondaryColor =>
-      AppColors.mainColor;
+  Color get secondaryColor => AppColors.mainColor;
   Color get textColor => Get.isDarkMode ? Colors.white : Colors.black;
   Color get subtextColor => Get.isDarkMode ? Colors.white70 : Colors.black87;
   Color get backgroundColor => Get.isDarkMode ? Colors.black : Colors.white;
