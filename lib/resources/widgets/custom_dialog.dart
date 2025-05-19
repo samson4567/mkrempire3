@@ -210,7 +210,7 @@ class CustomDialog {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'neco pin:   ${necoPin ?? ''}',
+                            'electricity token:   ${electricityToken ?? ''}',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 17,
